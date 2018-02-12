@@ -7,10 +7,10 @@ function getStats(txt) {
         nWords: getNWords(txt),
         nLines: getNLines(txt),
         nNonEmptyLines: getnNonEmptyLines(txt),
-        averageWordLength: 3.3,
-        maxLineLength: 33,
-        palindromes: ["12321", "kayak", "mom"],
-        longestWords: ["xxxxxxxxx", "123444444"],
+        maxLineLength: getMaxLineLength(txt),
+        averageWordLength: getAverageWordLength(txt),
+        palindromes: getPalindromes(txt),
+        longestWords: getLongestWords(txt),
         mostFrequentWords: ["hello(7)", "world(1)"]
     }
 
@@ -31,24 +31,109 @@ function getNWords(txt) {
 }
 
 function getNLines(txt) {
-    // DONE --> COMMENT MY CODE
-    var lines = txt.split(/\r\n|\r|\n/).length;
-    return lines;
+    // DONE
+    return txt.split("\n").length;
 
     //  ALTERNATIVE IMPLEMENTATION:
-    //return txt.split("\n").length;
+    //var nLines = txt.split(/\r\n|\r|\n/).length;
+    //return nLines;
 }
 
 function getnNonEmptyLines(txt) {
-    // DONE --> COMMENT MY CODE
-    var nonEmptyLines = (txt.match(/^\s*\S/gm) || "").length;
+    // DONE
+    var nNonEmptyLines = (txt.match(/^\s*\S/gm)).length;
 
-    return nonEmptyLines;
+    return nNonEmptyLines;
 }
 
 function getAverageWordLength(txt) {
-    // FIX ME
-    var averageWordLength = txt.match("\n");
+    // DONE
+    var words = txt.match(/[0-9a-z]+/gi);
 
-    return averageLength;
+    var lengthTotal = 0;
+    for (var i = 0; i < words.length; i++) {
+        lengthTotal = lengthTotal + words[i].length;
+    }
+
+    average = lengthTotal / words.length;
+    return average;
+}
+
+function getMaxLineLength(txt) {
+    // TO-DO: Implement         <-- DONE
+    // TO-DO: Comment my code   <-- DONE
+    var maxLineLength = 0;
+    var currentLargestLength = 0;
+
+    // Step 1 - Go through the entire input string
+    var i = 0;
+    while(i < txt.length)
+    {
+        // Step 2 - Gather the current line's length
+        if (txt[i] === '\n')
+        {
+            // If (You have reached end of line) && currentLargestLength is > maxLineLength
+            //      Then (make maxLineLength the currentLargestLength)
+            if (currentLargestLength > maxLineLength)
+            {
+                maxLineLength = currentLargestLength;
+            }
+            // In that case, start currentLargestLength over from 0 && go through the next line
+            currentLargestLength = 0;
+        }
+        else
+        {
+            // Step 3 - Keep iterating through the string until you find new-line character
+            currentLargestLength++;
+        }
+
+        // Step 4 - Increment variable until end of the string reached to check the entire input
+        i++;
+    }
+
+    // Step 5 - If (the entire input string was just one line)...
+    //          Then (make maxLineLength the currentLargestLength)
+    if (currentLargestLength > maxLineLength)
+    {
+        maxLineLength = currentLargestLength;
+    }
+
+    // Finally, return the maxLineLength
+    return maxLineLength;
+}
+
+function getPalindromes(txt) {
+    // TO-DO: Implement     <-- DONE
+
+    var words = txt.match(/[0-9a-z]+/gi);
+    var palindromeList = [];
+
+    var i = 0;
+    while(i < words.length)
+    {
+        words[i] = words[i].toLowerCase();
+
+        if(words[i].length < 3)
+        {
+            // do nothing
+        }
+        else if( (words[i] === words[i].split("").reverse().join("")) === true )
+        {
+            palindromeList.push(words[i]);
+        }
+
+        i++;
+    }
+
+    return palindromeList;
+}
+
+function getLongestWords(txt) {
+    // TO-DO: Implement     <-- Incomplete! Returns only the longest string!
+    var words = txt.match(/[0-9a-z]+/gi);
+    var longestWord = [];
+
+    longestWord = words.sort(function(a, b) {return b.length - a.length});
+
+    return longestWord[0].toLowerCase();
 }
