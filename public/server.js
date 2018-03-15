@@ -16,7 +16,7 @@ app.use('/public', express.static('public'));
 // set the home page route
 // serve our index.html page via GET requests
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + 'index.html');
 });
 
 app.listen(port, function() {
